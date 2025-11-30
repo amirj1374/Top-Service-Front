@@ -77,36 +77,42 @@ $sizes: (
   src: url('/src/assets/fonts/BYekan.woff') format('woff');
   font-weight: 300;
   font-style: normal;
+  font-display: swap
 }
 @font-face {
   font-family: 'iranSans';
   src: url('/src/assets/fonts/IRANSansWeb.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
+  font-display: swap
 }
 @font-face {
   font-family: 'kalamehLight';
   src: url('/src/assets/fonts/kalamehRegular.woff') format('woff');
   font-weight: 300;
   font-style: normal;
+  font-display: swap
 }
 @font-face {
   font-family: 'vazir';
   src: url('/src/assets/fonts/Vazir-Medium-FD.woff') format('woff');
   font-weight: 300;
   font-style: normal;
+  font-display: swap
 }
 @font-face {
   font-family: 'IranNastaliq';
   src: url('/src/assets/fonts/IranNastaliq.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
+  font-display: swap
 }
 @font-face {
   font-family: 'Massir';
   src: url('/src/assets/fonts/A Massir Spray.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
+  font-display: swap
 }
 body {
   font-family: var(--font-theme), sans-serif;
