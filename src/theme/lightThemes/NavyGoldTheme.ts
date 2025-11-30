@@ -26,7 +26,7 @@ const NavyGoldTheme: ThemeTypes = {
     darksecondary: '#000C2A',
     borderLight: '#D0D7E3',
     inputBorder: '#A5AEC1',
-    containerBg: '#F5F7FB',
+    containerBg: '#ececc5',
     surface: '#FFFFFF',
     'on-surface-variant': '#FFFFFF',
     facebook: '#4267b2',
