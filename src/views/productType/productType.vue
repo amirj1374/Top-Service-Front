@@ -9,7 +9,7 @@
       :show-pagination="true"
       :height="550"
       :show-refresh-button="true"
-      :actions="['delete', 'edit', 'create']"
+      :actions="['delete', 'edit', 'create', 'filter']"
       date-with-timezone
       :axiosInstance="axiosInstance"
     />
@@ -53,7 +53,8 @@ const headers = computed(() => [
     title: 'توضیحات',
     key: 'description',
     sortable: true,
-    width: 200
+    width: 200,
+    defaultFilterOperator: 'equals'
   },
   {
     title: 'نوع محصول',
