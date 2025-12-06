@@ -33,3 +33,33 @@ export interface authPayload {
   rememberMe: boolean;
   username: string;
 }
+
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface RegisterUser {
+  id: string;
+  name: string;
+  email: string;
+  age: number | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RegisterResponse {
+  access_token: string;
+  user: RegisterUser;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  access_token: string;
+  user: RegisterUser;
+}

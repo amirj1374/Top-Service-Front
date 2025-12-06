@@ -1,65 +1,88 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Google from '@/assets/images/auth/social-google.svg';
+import { useRouter } from 'vue-router';
+import { Form } from 'vee-validate';
+import { api } from '@/services/api';
+
+const router = useRouter();
 const checkbox = ref(false);
+const rememberMe = ref(false);
 const show1 = ref(false);
 const password = ref('');
 const email = ref('');
-const Regform = ref();
 const firstname = ref('');
 const lastname = ref('');
-const passwordRules = ref([
-  (v: string) => !!v || 'Password is required',
-  (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
-]);
-const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+const valid = ref(false);
 
-function validate() {
-  Regform.value.validate();
+const passwordRules = ref([
+  (v: string) => !!v || 'رمز عبور وارد نشده است',
+]);
+const emailRules = ref([(v: string) => !!v || 'ایمیل وارد نشده است', (v: string) => /.+@.+\..+/.test(v) || 'ایمیل صحیح نمی باشد']);
+const nameRules = ref([(v: string) => !!v || 'نام وارد نشده است']);
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+async function validate(values: any, { setErrors }: any) {
+  if (!checkbox.value) {
+    setErrors({ apiError: 'شما باید با شرایط و قوانین موافقت کنید' });
+    return;
+  }
+
+  try {
+    // Combine firstname and lastname into name
+    const name = `${firstname.value} ${lastname.value}`.trim();
+    
+    const response = await api.auth.register({
+      name,
+      email: email.value,
+      password: password.value
+    });
+
+    // Store the access token
+    if (response.data.access_token) {
+      localStorage.setItem('authToken', response.data.access_token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+
+    // Redirect to login
+    router.push('/auth/login');
+  } catch (error: any) {
+    const errorMsg = error.response?.data?.message || error.message || 'ثبت نام با خطا مواجه شد. لطفا دوباره تلاش کنید.';
+    setErrors({ apiError: errorMsg });
+    console.error('Registration error:', error);
+  }
 }
 </script>
 
 <template>
-  <v-btn block color="primary" variant="outlined" class="text-lightText googleBtn">
-    <img :src="Google" alt="google" />
-    <span class="ml-2">Sign up with Google</span></v-btn
-  >
-  <v-row>
-    <v-col class="d-flex align-center">
-      <v-divider class="custom-devider" />
-      <v-btn variant="outlined" class="orbtn" rounded="md" size="small">OR</v-btn>
-      <v-divider class="custom-devider" />
-    </v-col>
-  </v-row>
-  <h5 class="text-h5 text-center my-4 mb-8">Sign up with Email address</h5>
-  <v-form ref="Regform" lazy-validation action="/dashboards/analytical" class="mt-7 loginForm">
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          v-model="firstname"
-          density="comfortable"
-          hide-details="auto"
-          variant="outlined"
-          color="primary"
-          label="Firstname"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          v-model="lastname"
-          density="comfortable"
-          hide-details="auto"
-          variant="outlined"
-          color="primary"
-          label="Lastname"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+  <h5 class="text-h5 text-center my-4 mb-8"></h5>
+  <Form @submit="validate" class="mt-7 loginForm" v-slot="{ errors, isSubmitting }">
+    <v-text-field
+      v-model="firstname"
+      :rules="nameRules"
+      label="نام"
+      class="mt-4 mb-8"
+      required
+      density="comfortable"
+      hide-details="auto"
+      variant="outlined"
+      color="primary"
+    ></v-text-field>
+    <v-text-field
+      v-model="lastname"
+      :rules="nameRules"
+      label="نام خانوادگی"
+      class="mb-8"
+      required
+      density="comfortable"
+      hide-details="auto"
+      variant="outlined"
+      color="primary"
+    ></v-text-field>
     <v-text-field
       v-model="email"
       :rules="emailRules"
-      label="Email Address / Username"
-      class="mt-4 mb-4"
+      label="آدرس ایمیل"
+      class="mb-8"
       required
       density="comfortable"
       hide-details="auto"
@@ -69,38 +92,53 @@ function validate() {
     <v-text-field
       v-model="password"
       :rules="passwordRules"
-      label="Password"
+      label="رمز عبور"
       required
       density="comfortable"
       variant="outlined"
       color="primary"
       hide-details="auto"
-      :append-icon="show1 ? '$eye' : '$eyeOff'"
       :type="show1 ? 'text' : 'password'"
       @click:append="show1 = !show1"
-      class="pwdInput"
     ></v-text-field>
+<!--    :append-icon="show1 ? '$eye' : '$eyeOff'"-->
 
-    <div class="d-sm-inline-flex align-center mt-2 mb-7 mb-sm-0 font-weight-bold">
+    <div class="d-flex align-center justify-lg-space-between">
+      <v-checkbox
+        v-model="rememberMe"
+        label="ذخیره رمز عبور"
+        color="primary"
+        class="ms-n2"
+        hide-details
+      ></v-checkbox>
+      <div class="">
+        <a href="#" class="text-primary text-decoration-none">شرایط و قوانین</a>
+      </div>
+    </div>
+    <div class="d-flex align-center mt-2">
       <v-checkbox
         v-model="checkbox"
-        :rules="[(v: any) => !!v || 'You must agree to continue!']"
-        label="Agree with?"
+        :rules="[(v: any) => !!v || 'شما باید با شرایط موافقت کنید!']"
+        label="موافقت با شرایط و قوانین"
         required
         color="primary"
         class="ms-n2"
         hide-details
       ></v-checkbox>
-      <a href="#" class="ml-1 text-lightText">Terms and Condition</a>
     </div>
-    <v-btn color="secondary" block class="mt-2" variant="flat" size="large" @click="validate()">Sign Up</v-btn>
-  </v-form>
-  <div class="mt-5 text-right">
-    <v-divider />
-    <v-btn variant="plain" to="/auth/login" class="mt-2 text-capitalize ml-n2">Already have an account?</v-btn>
-  </div>
+    <v-btn color="secondary" :loading="isSubmitting" block class="mt-2" variant="flat" size="large" :disabled="valid" type="submit">
+      ثبت نام</v-btn
+    >
+    <div v-if="errors.apiError" class="mt-2">
+      <v-alert color="error">{{ errors.apiError }}</v-alert>
+    </div>
+  </Form>
+<!--  <div class="mt-5 text-right">-->
+<!--    <v-divider />-->
+<!--    <v-btn variant="plain" to="/auth/login" class="mt-2 text-capitalize ml-n2">قبلا ثبت نام کرده اید؟</v-btn>-->
+<!--  </div>-->
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .custom-devider {
   border-color: rgba(0, 0, 0, 0.08) !important;
 }
@@ -117,16 +155,9 @@ function validate() {
   border-color: rgba(0, 0, 0, 0.08);
   margin: 20px 15px;
 }
-.pwdInput {
-  position: relative;
-  .v-input__append {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(50%);
+.loginForm {
+  .v-text-field .v-field--active input {
+    font-weight: 500;
   }
-}
-.v-field__field {
-  flex-direction: row-reverse !important;
 }
 </style>

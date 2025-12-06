@@ -14,7 +14,7 @@
         :axiosInstance="axiosInstance"
         group-by="groupByItem"
         :default-expanded="true"
-        :page-size="150"
+        :page-size="100"
         :group-header-template="getGroupHeaderTemplate"
         bulkMode
         selectable

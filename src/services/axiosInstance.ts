@@ -25,39 +25,38 @@ const createAxiosInstance = (): AxiosInstance => {
     (response) => response,
     async (error) => {
       if (error.response?.status === 401) {
+        // Clear authentication data
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
+
         // In demo mode, don't redirect on 401 - just let the error pass through
         if (envConfig.AUTH_MODE === 'demo') {
           return Promise.reject(error);
         }
 
+        // Get router instance
+        const { router } = await import('@/router');
+        const currentPath = router.currentRoute.value.path;
+
+        // Don't redirect if already on login page to avoid redirect loops
+        if (currentPath === '/auth/login') {
+          return Promise.reject(error);
+        }
+
+        // Handle different auth modes
         switch (envConfig.AUTH_MODE) {
-          case 'keycloak': {
-            window.location.href = 'back/oauth2/authorization/master';
-            break;
-          }
-          case 'jwt': {
-            const { router } = await import('@/router');
-            if (router.currentRoute.value.path !== '/auth/login') {
-              router.push('/auth/login');
-            }
-            break;
-          }
+          case 'keycloak':
           case 'initializer': {
+            // For keycloak/initializer, redirect to OAuth endpoint
             window.location.href = 'back/oauth2/authorization/master';
             break;
           }
-          case 'dev': {
-            const { router } = await import('@/router');
-            if (router.currentRoute.value.path !== '/auth/login') {
-              router.push('/auth/login');
-            }
-            break;
-          }
+          case 'jwt':
+          case 'dev':
           default: {
-            const { router } = await import('@/router');
-            if (router.currentRoute.value.path !== '/auth/login') {
-              router.push('/auth/login');
-            }
+            // For JWT/dev/default, route to login page
+            router.push('/auth/login');
+            break;
           }
         }
       }

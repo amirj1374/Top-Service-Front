@@ -1,31 +1,41 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useAuthStore } from '@/stores/auth';
 import { Form } from 'vee-validate';
-import { useCustomizerStore } from '@/stores/customizer';
 import { useRouter } from 'vue-router';
-import { useApprovalStore } from '@/stores/approval';
+import { api } from '@/services/api';
 
 const checkbox = ref(false);
 const valid = ref(false);
 const show1 = ref(false);
-const password = ref('admin123');
-const username = ref('info@codedthemes.com');
+const password = ref('');
+const username = ref('');
 const router = useRouter();
-const customizer = useCustomizerStore();
-const approvalStore = useApprovalStore();
 const passwordRules = ref([
   (v: string) => !!v || 'رمز عبور وارد نشده است',
-  (v: string) => (v && v.length <= 10) || 'رمز عبور باید کمتر از 10 کاراکتر باشد'
 ]);
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const emailRules = ref([(v: string) => !!v || 'نام کاربری را وارد نمایید', (v: string) => /.+@.+\..+/.test(v) || 'نام کاربری صحیح نمی باشد']);
-function validate(values: any, { setErrors }: any) {
-  approvalStore.resetAll();
-  router.push('/approval');
-  // const authStore = useAuthStore();
-  // return authStore.login(username.value, password.value).catch((error) => setErrors({ apiError: error }));
+async function validate(values: any, { setErrors }: any) {
+  try {
+    const response = await api.auth.login({
+      email: username.value,
+      password: password.value
+    });
+
+    // Store the access token in localStorage
+    if (response.data.access_token) {
+      localStorage.setItem('authToken', response.data.access_token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+
+    // Redirect to home or dashboard
+    router.push('/');
+  } catch (error: any) {
+    const errorMsg = error.response?.data?.message || error.message || 'ورود با خطا مواجه شد. لطفا دوباره تلاش کنید.';
+    setErrors({ apiError: errorMsg });
+    console.error('Login error:', error);
+  }
 }
 </script>
 
