@@ -15,7 +15,6 @@
         group-by="groupByItem"
         :default-expanded="true"
         :page-size="100"
-        :group-header-template="getGroupHeaderTemplate"
         bulkMode
         selectable
       />
@@ -38,14 +37,7 @@
       href: '#'
     }
   ]);
-  // Group header template function to show nationalCode and fullName
-  const getGroupHeaderTemplate = (groupKey: string | number, groupItems: any[]): string => {
-    if (groupItems.length > 0) {
-      const firstItem = groupItems[0];
-      return `  ${firstItem.groupByItem} : (${groupItems.length} مدرک)`;
-    }
-    return `(${groupItems.length} مدرک)`;
-  };
+
   const page = ref({ title: 'عملیات' });
   // Reactive data
   const dataTableRef = ref();
@@ -55,6 +47,12 @@
   const productTypes = ref<any[]>([]);
   
   const headers = computed(() => [
+    {
+      title: 'نام محصول',
+      key: 'name',
+      sortable: true,
+      width: 200
+    },
     {
       title: 'تاریخ ایجاد',
       key: 'createdAt',
@@ -66,12 +64,6 @@
     {
       title: 'توضیحات',
       key: 'description',
-      sortable: true,
-      width: 200
-    },
-    {
-      title: 'نام محصول',
-      key: 'name',
       sortable: true,
       width: 200
     },
