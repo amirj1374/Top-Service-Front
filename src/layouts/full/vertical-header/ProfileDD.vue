@@ -21,7 +21,7 @@ const greeting = computed(() => {
   <!-- profile DD -->
   <!-- ---------------------------------------------- -->
   <div class="pa-4">
-    <h3 class="mb-2 text-secondary">{{ greeting }} , <span class="font-weight-regular">{{ customerInfoStore.userInfo?.fullName }}</span></h3>
+    <h3 class="mb-2 text-secondary">{{ greeting }} , <span class="font-weight-regular">{{ authStore.user?.name }}</span></h3>
     <h3 class="text-subtitle-2 text-medium-emphasis">{{ customerInfoStore.userInfo?.position }}</h3>
 
     <v-text-field persistent-placeholder placeholder="جستجو" class="my-3" color="primary" variant="outlined" hide-details>

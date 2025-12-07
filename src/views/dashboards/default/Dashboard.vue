@@ -18,6 +18,40 @@
 
       <!-- Dashboard Content -->
       <div v-else>
+        <!-- Plate Input Section -->
+        <v-row>
+          <v-col cols="12">
+            <v-card class="mb-4">
+              <v-card-title class="d-flex align-center">
+                <span>جستجوی پلاک خودرو</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form>
+                  <IranianPlateInput 
+                    v-model="plateNumber" 
+                    label="شماره پلاک" 
+                    :required="true"
+                  />
+                  <v-btn 
+                    color="primary" 
+                    class="mt-4" 
+                    :disabled="!plateNumber || plateNumber.split(' ').length < 4"
+                    @click="handlePlateSearch"
+                  >
+                    جستجو
+                  </v-btn>
+                  <v-alert 
+                    v-if="searchResult" 
+                    type="success" 
+                    class="mt-4"
+                    :text="`نتایج جستجو برای پلاک: ${plateNumber}`"
+                  ></v-alert>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+
         <!-- Welcome Section -->
         <v-row>
           <v-col cols="12">
@@ -73,13 +107,34 @@ import { useCustomizerStore } from '@/stores/customizer';
 import DataLabels from '@/views/dashboards/default/components/DataLabels.vue';
 import TotalGrowth from '@/views/dashboards/default/components/TotalGrowth.vue';
 import TotalIncome from '@/views/dashboards/default/components/TotalIncome.vue';
-import { computed } from 'vue';
+import IranianPlateInput from '@/components/IranianPlateInput.vue';
+import { computed, ref } from 'vue';
 
 const customerInfoStore = useCustomerInfoStore();
 const customizer = useCustomizerStore();
 
+// Plate search state
+const plateNumber = ref('');
+const searchResult = ref(null);
+
 // Get user info from store
 const userInfo = computed(() => customerInfoStore.getUserInfo);
+
+// Handle plate search
+function handlePlateSearch() {
+  if (plateNumber.value) {
+    // Here you can add your API call to search for the plate
+    console.log('Searching for plate:', plateNumber.value);
+    searchResult.value = `پلاک ${plateNumber.value} یافت شد`;
+    
+    // Example API call:
+    // api.searchPlate(plateNumber.value).then(response => {
+    //   searchResult.value = response.data;
+    // }).catch(error => {
+    //   console.error('Plate search error:', error);
+    // });
+  }
+}
 
 // Format date helper function
 const formatDate = (dateString) => {

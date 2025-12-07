@@ -10,6 +10,9 @@ import AuthRegister from '../authForms/AuthRegister.vue';
       <v-container>
         <div class="pa-7 pa-sm-12">
           <v-row justify="center">
+            <div class="colorized-bg-effect-wrapper">
+              <img src="/src/assets/images/vectors/colorized-bg.svg" class="colorized-bg-effect" alt="bg effect" draggable="false">
+            </div>
             <v-col cols="12" lg="10" xl="6" md="7">
               <v-card elevation="0" class="loginBox">
                 <v-card variant="outlined">
@@ -42,5 +45,31 @@ import AuthRegister from '../authForms/AuthRegister.vue';
 .loginBox {
   max-width: 475px;
   margin: 0 auto;
+}
+.colorized-bg-effect-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.colorized-bg-effect {
+  //width: 100%;
+  border: unset;
+  animation: 6s colorize infinite linear;
+  @keyframes colorize {
+    0% {
+      filter: hue-rotate(0) saturate(0);
+    }
+    50% {
+      filter: hue-rotate(65deg) saturate(100);
+    }
+    75% {
+      filter: hue-rotate(285deg) saturate(100);
+    }
+    100% {
+      filter: hue-rotate(360deg) saturate(0);
+    }
+  }
 }
 </style>

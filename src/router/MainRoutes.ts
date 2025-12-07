@@ -24,6 +24,12 @@ const MainRoutes = {
         meta: { requiresAuth: false, permission: '' },
         component: () => import('@/views/product/product.vue')
       },
+      {
+        path: '/customer',
+        name: 'customers',
+        meta: { requiresAuth: false, permission: '' },
+        component: () => import('@/views/customer/customer.vue')
+      },
   ]
 };
 

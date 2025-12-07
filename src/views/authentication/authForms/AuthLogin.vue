@@ -40,6 +40,14 @@ async function validate(values: any, { setErrors }: any) {
 </script>
 
 <template>
+  <!-- Register Link Section -->
+  <div class="register-section">
+    <span class="register-text">حساب کاربری ندارید؟</span>
+    <router-link to="/auth/register" class="register-link">
+      ثبت نام
+    </router-link>
+  </div>
+
   <h5 class="text-h5 text-center my-4 mb-8"></h5>
   <Form @submit="validate" class="mt-7 loginForm" v-slot="{ errors, isSubmitting }">
     <v-text-field
@@ -95,6 +103,51 @@ async function validate(values: any, { setErrors }: any) {
 <!--  </div>-->
 </template>
 <style lang="scss" scoped>
+.register-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 12px 0;
+}
+
+.register-text {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 400;
+}
+
+.register-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(var(--v-theme-primary));
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 4px 0;
+
+  &:hover {
+    color: rgb(var(--v-theme-primary));
+    opacity: 0.8;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: rgb(var(--v-theme-primary));
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
 .custom-devider {
   border-color: rgba(0, 0, 0, 0.08) !important;
 }
@@ -114,6 +167,28 @@ async function validate(values: any, { setErrors }: any) {
 .loginForm {
   .v-text-field .v-field--active input {
     font-weight: 500;
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .register-link-container {
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+
+  .register-link-content {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .register-text {
+    font-size: 13px;
+  }
+
+  .register-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

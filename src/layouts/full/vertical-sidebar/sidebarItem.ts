@@ -2,6 +2,7 @@ import {
   IconBrandDribbble,
   IconHome,
   IconBrandCodesandbox,
+  IconCrop54,
 } from '@tabler/icons-vue';
 import { usePermissionsStore } from '@/stores/permissions';
 
@@ -38,6 +39,12 @@ const sidebarItem: menu[] = [
     title: 'محصولات',
     icon: IconBrandCodesandbox,
     to: '/product',
+    permissionKey: '',
+  },
+  {
+    title: 'مشتری',
+    icon: IconCrop54,
+    to: '/customer',
     permissionKey: '',
   },
 ];
