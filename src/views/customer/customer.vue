@@ -38,7 +38,6 @@ const dataTableRef = ref();
 const showSnackbar = ref(false);
 const snackbarMessage = ref('');
 const snackbarColor = ref('success');
-const productTypes = ref<any[]>([]);
 
 const headers = computed(() => [
   {

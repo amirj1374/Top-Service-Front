@@ -592,7 +592,7 @@ defineExpose({
           font-size: 7px;
           color: #c8102e;
           font-weight: 900;
-          font-family: 'BYekan', 'IRANSansX', sans-serif;
+          font-family: var(--font-theme), sans-serif;
           line-height: 0.85;
           transform: scale(0.9);
         }
@@ -609,7 +609,7 @@ defineExpose({
       text-align: center;
       line-height: 1.1;
       margin-bottom: 1px;
-      font-family: 'Arial', 'Helvetica', sans-serif;
+      font-family: var(--font-theme), sans-serif;
       letter-spacing: 0.3px;
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
@@ -635,7 +635,7 @@ defineExpose({
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-family: 'BYekan', 'IRANSansX', sans-serif;
+      font-family: var(--font-theme), sans-serif;
       width: 100%;
       direction: rtl;
     }
@@ -650,7 +650,7 @@ defineExpose({
       outline: none;
       width: auto;
       min-width: 0;
-      font-family: 'BYekan', 'IRANSansX', sans-serif;
+      font-family: var(--font-theme), sans-serif;
       direction: rtl;
       padding: 0;
       line-height: 1.1;
@@ -726,14 +726,14 @@ defineExpose({
       font-weight: 700;
       color: #000000;
       margin-bottom: 8px;
-      font-family: 'BYekan', 'IRANSansX', sans-serif;
+      font-family: var(--font-theme), sans-serif;
     }
 
     .province-display {
       font-size: 15px;
       font-weight: 900;
       color: #000000 !important;
-      font-family: 'BYekan', 'IRANSansX', sans-serif;
+      font-family: var(--font-theme), sans-serif;
       direction: rtl;
       border: none;
       background: transparent;
