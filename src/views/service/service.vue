@@ -4,7 +4,7 @@
     <CustomDataTable
       ref="dataTableRef"
       :headers="headers"
-      api-resource="api/customers"
+      api-resource="api/services"
       :auto-fetch="true"
       :show-pagination="true"
       :height="550"
@@ -27,12 +27,12 @@ import axiosInstance from '@/services/axiosInstance';
 
 const breadcrumbs = ref([
   {
-    title: 'مشتری',
+    title: 'انواع خدمات',
     disabled: false,
     href: '#'
   }
 ]);
-const page = ref({ title: 'مشتری' });
+const page = ref({ title: 'خدمات' });
 // Reactive data
 const dataTableRef = ref();
 const showSnackbar = ref(false);
@@ -41,16 +41,49 @@ const snackbarColor = ref('success');
 
 const headers = computed(() => [
   {
-    title: 'نام مشتری',
-    key: 'fullName',
+    title: 'نام خدمات',
+    key: 'name',
     sortable: true,
-    width: 200,
+    width: 200
   },
   {
-    title: 'شماره تماس',
-    key: 'phone',
+    title: 'توضیحات',
+    key: 'description',
     sortable: true,
     width: 200,
+    defaultFilterOperator: 'equals'
+  },
+  {
+    title: 'قیمت',
+    key: 'price',
+    sortable: false,
+    width: 100,
+    type: 'money'
+  },
+  {
+    title: 'وضعیت',
+    key: 'isActive',
+    sortable: false,
+    width: 100,
+    translate: true,
+    type: 'toggle',
+    options: BooleanEnumOptions
+  },
+  {
+    title: 'تاریخ ایجاد',
+    key: 'createdAt',
+    sortable: true,
+    width: 200,
+    isDate: true,
+    excludeFromForm: true
+  },
+  {
+    title: 'تاریخ ویرایش',
+    key: 'updatedAt',
+    sortable: true,
+    width: 200,
+    isDate: true,
+    excludeFromForm: true
   },
 ]);
 </script>

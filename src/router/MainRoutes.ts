@@ -30,6 +30,12 @@ const MainRoutes = {
         meta: { requiresAuth: false, permission: '' },
         component: () => import('@/views/customer/customer.vue')
       },
+      {
+        path: '/service',
+        name: 'service',
+        meta: { requiresAuth: false, permission: '' },
+        component: () => import('@/views/service/service.vue')
+      },
   ]
 };
 

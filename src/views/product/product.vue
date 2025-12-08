@@ -32,20 +32,19 @@
   
   const breadcrumbs = ref([
     {
-      title: 'نوع محصول',
+      title: 'محصول',
       disabled: false,
       href: '#'
     }
   ]);
 
-  const page = ref({ title: 'عملیات' });
+  const page = ref({ title: 'محصول' });
   // Reactive data
   const dataTableRef = ref();
   const showSnackbar = ref(false);
   const snackbarMessage = ref('');
   const snackbarColor = ref('success');
-  const productTypes = ref<any[]>([]);
-  
+
   const headers = computed(() => [
     {
       title: 'نام محصول',

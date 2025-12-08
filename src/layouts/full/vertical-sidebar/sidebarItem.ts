@@ -1,8 +1,9 @@
 import {
-  IconBrandDribbble,
   IconHome,
-  IconBrandCodesandbox,
-  IconCrop54,
+  IconWheel,
+  IconDropletCog,
+  IconCar,
+  IconCategory
 } from '@tabler/icons-vue';
 import { usePermissionsStore } from '@/stores/permissions';
 
@@ -31,20 +32,26 @@ const sidebarItem: menu[] = [
   },
   {
     title: 'نوع محصول',
-    icon: IconBrandDribbble,
+    icon: IconCategory,
     to: '/product-type',
     permissionKey: '',
   },
   {
     title: 'محصولات',
-    icon: IconBrandCodesandbox,
+    icon: IconDropletCog,
     to: '/product',
     permissionKey: '',
   },
   {
     title: 'مشتری',
-    icon: IconCrop54,
+    icon: IconCar,
     to: '/customer',
+    permissionKey: '',
+  },
+  {
+    title: 'خدمات',
+    icon: IconWheel,
+    to: '/service',
     permissionKey: '',
   },
 ];

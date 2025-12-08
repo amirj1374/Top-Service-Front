@@ -32,7 +32,7 @@ const breadcrumbs = ref([
     href: '#'
   }
 ]);
-const page = ref({ title: 'عملیات' });
+const page = ref({ title: 'نوع محصول' });
 // Reactive data
 const dataTableRef = ref();
 const showSnackbar = ref(false);
