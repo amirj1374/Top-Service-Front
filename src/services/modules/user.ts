@@ -3,8 +3,8 @@ import type { CustomizerDTO, PersonDTO } from '@/types/models/person';
 import type { UserInfoResponse } from '@/types/models/userInfo';
 
 const userApi = (axiosInstance: AxiosInstance) => ({
-  getUserInfo(): Promise<{ data: UserInfoResponse }> {
-    return axiosInstance.get('api/v1/token');
+  getCustomizer(): Promise<{ data: UserInfoResponse }> {
+    return axiosInstance.get('api/users/me/customizer');
   },
   getDepartmentsLevel() {
     return axiosInstance.get("api/v1/department-role/levels");
@@ -21,8 +21,8 @@ const userApi = (axiosInstance: AxiosInstance) => ({
   delete(id: string) {
     return axiosInstance.delete(`api/v1/personTransaction-requests/${id}`);
   },
-  setCustomizer(data: CustomizerDTO) {
-    return axiosInstance.post(`api/v1/customizer`, data);
+  setCustomizer(data: { customizer: string }) {
+    return axiosInstance.put(`api/users/me/customizer`, data);
   },
   getLoanRequestCount() {
     return axiosInstance.get(`api/v1/dashboard/loan-request-counts`);

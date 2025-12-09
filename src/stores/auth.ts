@@ -13,6 +13,7 @@ export const useAuthStore = defineStore({
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     user: JSON.parse(localStorage.getItem('user')),
+    customizer: JSON.parse(localStorage.getItem('customizer') ?? 'null'),
     returnUrl: null
   }),
   actions: {
@@ -36,7 +37,9 @@ export const useAuthStore = defineStore({
     },
     logout() {
       this.user = null;
+      this.customizer = null;
       localStorage.removeItem('user');
+      localStorage.removeItem('customizer');
       localStorage.removeItem('authToken');
       router.push('/auth/login');
     }

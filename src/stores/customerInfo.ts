@@ -11,7 +11,7 @@ export const useCustomerInfoStore = defineStore({
   
   getters: {
     // Get user info
-    getUserInfo: (state) => state.userInfo,
+    getCustomizer: (state) => state.userInfo,
     
     // Check if user info is loaded
     isUserInfoLoaded: (state) => state.userInfo !== null,

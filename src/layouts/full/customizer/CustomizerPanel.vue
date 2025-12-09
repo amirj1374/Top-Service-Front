@@ -136,7 +136,9 @@ async function setCustomizer() {
     payload.themeMode = validateThemeMode(customizer.themeMode);
     payload.menuOrientation = validateMenuOrientation(customizer.menuOrientation);
     
-    const res = await api.user.setCustomizer(JSON.stringify(payload));
+    const res = await api.user.setCustomizer({
+      customizer: JSON.stringify(payload)
+    });
     
     if (res) {
       snackbarMessage.value = 'تنظیمات با موفقیت ذخیره شد';

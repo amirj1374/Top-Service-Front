@@ -63,13 +63,35 @@ const logger = {
  */
 async function handleJwtAuth(): Promise<void> {
   try {
-    const response = await api.user.getUserInfo();
+    const response = await api.user.getCustomizer();
     if (response?.data) {
-      const { useAuthStore } = await import('@/stores/auth');
-      const authStore = useAuthStore();
-      authStore.user = response.data;
-      localStorage.setItem('user', JSON.stringify(response.data));
-      logger.log('✅ JWT authentication successful');
+      const { useCustomizerStore } = await import('@/stores/customizer');
+      const customizerStore = useCustomizerStore();
+
+      // Ensure customizer is stored as parsed JSON (fallback to raw value on parse issues)
+      const customizerValue = (() => {
+        const raw = response.data.customizer;
+        if (raw === undefined || raw === null) return null;
+        if (typeof raw === 'string') {
+          try {
+            return JSON.parse(raw);
+          } catch {
+            return raw;
+          }
+        }
+        return raw;
+      })();
+
+      if (customizerValue && typeof customizerValue === 'object') {
+        customizerStore.fontTheme = customizerValue.fontTheme ?? customizerStore.fontTheme;
+        customizerStore.inputBg = customizerValue.inputBg ?? customizerStore.inputBg;
+        customizerStore.layoutType = customizerValue.layoutType ?? customizerStore.layoutType;
+        customizerStore.actTheme = customizerValue.actTheme ?? customizerStore.actTheme;
+        customizerStore.themeMode = customizerValue.themeMode ?? customizerStore.themeMode;
+        customizerStore.menuOrientation = customizerValue.menuOrientation ?? customizerStore.menuOrientation;
+      }
+
+      logger.log('✅ Customizer loaded');
     }
   } catch (error: unknown) {
     // Only log non-401 errors (401 is expected for unauthenticated users)
